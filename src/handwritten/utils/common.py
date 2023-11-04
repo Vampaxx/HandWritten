@@ -3,6 +3,8 @@ import yaml
 import pandas as pd
 import tensorflow as tf
 
+import json
+import joblib
 from ensure import ensure_annotations
 
 from box.exceptions import BoxValueError
@@ -33,3 +35,21 @@ def create_directories(path_to_directories: list, verbose=True):
 
 def save_model(path: Path, model):
     model.save(path)
+
+@ensure_annotations
+def save_json(path: Path, data: dict):
+    with open(path, "w") as f:
+        json.dump(data, f, indent=4)
+
+    logging.info(f"json file saved at: {path}")
+
+
+
+
+@ensure_annotations
+def load_json(path: Path) -> ConfigBox:
+    with open(path) as f:
+        content = json.load(f)
+
+    logging.info(f"json file loaded succesfully from: {path}")
+    return ConfigBox(content)
