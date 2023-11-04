@@ -2,6 +2,13 @@
 
 A handwritten machine learning (ML) project involves the development of a system that can recognize and interpret handwritten digits (0-9). 
 
+# DEMO WORKING
+
+
+
+https://github.com/Vampaxx/HandWritten/assets/124393485/8b3effab-58c8-4457-bd4a-9949685d8efb
+
+
 
 # How to run?
 
@@ -22,8 +29,16 @@ pip install -r requirements.txt
 
 - python app.py
 
+
+https://github.com/Vampaxx/HandWritten/assets/124393485/7197ec04-0313-4e81-83de-897906964a18
+
+
+
+
 Now,
 
 open up you local host and port
+
+
 
   
