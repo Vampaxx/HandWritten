@@ -149,6 +149,10 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# creds
+creds.py
+
+
 # Cython debug symbols
 cython_debug/
 
