@@ -1,16 +1,28 @@
+import io
 import cv2
+import base64
 import numpy as np
+from io import BytesIO
+from PIL import Image
 import tensorflow as tf
 
 
-def preprocessing(data):
-    data = data/255.0
-    return data
+def load_image(binary_image):
+    image           = Image.open(io.BytesIO(binary_image))
+    image_array     = np.array(image)
+    image           = image_array / 255.0
+    image           = image_array.reshape(28,28,1)
+    plot_image      = Image.fromarray(image_array)
+    return image,plot_image
 
-def load_image(path: str):
-    image = cv2.imread(path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
-    image = cv2.resize(image, (28, 28))
-    image = image / 255.0
-    image = image.reshape(28, 28, 1)  # Reshape to (28, 28, 1)
-    return image
+def convert_to_binary(file_name):
+    with open (file_name,'rb') as file:
+        binary_data = file.read()
+        return binary_data
+    
+def base64_decode(base64_encorded):
+    image_bytes = base64.b64decode(base64_encorded)
+    image       = Image.open(BytesIO(image_bytes))
+    image_array = np.array(image)
+    return image_array
+
