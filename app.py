@@ -1,65 +1,56 @@
-import os
-import cv2
-import numpy as np
-from pathlib import Path
-
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-from flask import Flask, request, render_template
-
+import pymysql
+import io
+import base64
+from PIL import Image
+from datetime import datetime
+from src.handwritten.utils.data_processing import convert_to_binary,load_image,base64_decode
+from sql_connection import sql_connector
+from flask import Flask, render_template,request
 from src.handwritten.pipeline.prediction import PredictionPipeline
-from src.handwritten.utils.data_processing import load_image
 
 
 
-
-app             = Flask(__name__)
-UPLOAD_FOLDER   = "\\Users\\Asus\\vs_code\\handwritten\\static"
-upload_file_path        = os.path.join(UPLOAD_FOLDER,'upload')
+app = Flask(__name__)   
 
 class ClientApp:
     def __init__(self):
-        self.filename = ""
+        self.image = None
     def init_classifier(self):
-        self.classifier = PredictionPipeline(self.filename)
+        self.classifier = PredictionPipeline(self.image)
 
-@app.route("/", methods=["GET","POST"])
-def upload_predict():
-    if not os.path.exists(upload_file_path):
-        os.makedirs(upload_file_path)
+clApp = ClientApp()
 
-    if request.method == 'POST':
-        image_file = request.files['image']
-        if image_file:
-            image_location = os.path.join(upload_file_path,image_file.filename)
-            image_file.save(image_location)
-
-            image_jpeg_file = os.path.splitext(image_location)[0] + ".jpeg"
-            img_file        = os.path.basename(image_jpeg_file)
-            img             = cv2.imread(image_location)
-            cv2.imwrite(image_jpeg_file, img, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-
-
-            #prediction
-            clApp.filename = image_location         
-            clApp.init_classifier()  
-            pred    = clApp.classifier.predict()
-
-            return render_template('index.html', prediction = pred ,image_loc= img_file )
-        
-    return render_template('index.html',prediction='Please Upload files',mask_loc=None, image_loc = None)
-
-
-
-
-
-
-
-    return render_template('index.html',Prediction='Upload the Handwritten file')
+@app.route('/',methods=['GET','POST'])
+def home():
+    conncetion,cursor = sql_connector()
+    cursor.execute("""CREATE TABLE IF NOT EXISTS hand_written (
+                   Id INT AUTO_INCREMENT PRIMARY KEY,
+                   Time_stamp DATETIME,
+                   Image_binary BLOB,
+                   Prediction Float)""")
     
+    conncetion.commit()
+    if request.method == 'POST':
+        quary = "INSERT INTO hand_written (Time_stamp,Image_binary,Prediction) VALUES (%s,%s,%s)"
+
+        image           = request.files['image']
+        if image:
+            time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            clApp.image = image
+            clApp.init_classifier()
+            image_encoded,pred = clApp.classifier.prediction()
+
+            cursor.execute(quary,(time_stamp,image_encoded,pred))
+            
+            conncetion.commit()
+            return render_template('index_.html',image_loc=image_encoded, pred_= pred)
+        conncetion.close()
+        cursor.close()
+    return render_template('index_.html',image_loc="upload image file")
+    
+
+
+
 
 if __name__ == "__main__":
-    clApp = ClientApp()
-    app.run(debug=True)
-
-    
+    app.run(debug=True,host='0.0.0.0',port=5000)
