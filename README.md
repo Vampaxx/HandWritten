@@ -35,14 +35,27 @@ pip install -r requirements.txt
 
 https://github.com/Vampaxx/HandWritten/assets/124393485/7197ec04-0313-4e81-83de-897906964a18
 
+Localhost is interacting with MySQL locally.
+
+https://github.com/Vampaxx/HandWritten/assets/124393485/d5ffe61d-72c5-41cf-b7e2-b9017f2d77d8
 
 
 ## Dockerization
 
+https://github.com/Vampaxx/HandWritten/blob/main/Dockerfile 
+
+
+https://github.com/Vampaxx/HandWritten/blob/main/docker-compose.yml
+
+
+-- compose images by 
 - docker-compose up
 
 
 
 
 
-  
+
+
+
+
