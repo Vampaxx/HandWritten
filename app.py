@@ -1,9 +1,4 @@
-import pymysql
-import io
-import base64
-from PIL import Image
 from datetime import datetime
-from src.handwritten.utils.data_processing import convert_to_binary,load_image,base64_decode
 from sql_connection import sql_connector
 from flask import Flask, render_template,request
 from src.handwritten.pipeline.prediction import PredictionPipeline
