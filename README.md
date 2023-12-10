@@ -14,18 +14,21 @@ https://github.com/Vampaxx/HandWritten/assets/124393485/8b3effab-58c8-4457-bd4a-
 
 ## STEPS:
 Clone the repository
+
+- git cone https://github.com/Vampaxx/HandWritten
+
 (https://github.com/Vampaxx/HandWritten)
 
-## STEP 01- Create a conda environment after opening the repository
+## Create a conda environment after opening the repository
 
 - conda create -n hand python=3.9 -y
 - conda activate brain
 
-## STEP 02- install the requirements
+## install the requirements
 
 pip install -r requirements.txt
 
-## Finally run the following command
+## Run the application in Localhost
 
 - python app.py
 
@@ -34,10 +37,11 @@ https://github.com/Vampaxx/HandWritten/assets/124393485/7197ec04-0313-4e81-83de-
 
 
 
+## Dockerization
 
-Now,
+- docker-compose up
 
-open up you local host and port
+
 
 
 
