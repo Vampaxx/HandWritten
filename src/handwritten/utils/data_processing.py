@@ -1,10 +1,8 @@
 import io
-import cv2
 import base64
 import numpy as np
 from io import BytesIO
 from PIL import Image
-import tensorflow as tf
 
 
 def load_image(binary_image):

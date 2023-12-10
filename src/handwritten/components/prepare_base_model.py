@@ -1,7 +1,4 @@
-import os
 import sys
-import tensorflow as tf
-from pathlib import Path
 from tensorflow.keras.models import load_model
 
 from src.handwritten.logger import logging
