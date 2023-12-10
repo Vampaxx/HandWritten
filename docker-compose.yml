@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  hand_written_app:
+    container_name: hand_written_app
+    image: vampaxx/hand_written_live_app
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_URL=mysql+pymysql://root:arjun9400508669@flask_db:3306/data1
+    depends_on:
+      - flask_hand_db
+  flask_hand_db:
+    container_name: flask_hand_db
+    image: mysql
+    ports:
+      - "3388:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD : "yes"
+      #MYSQL_USER : root
+      MYSQL_DATABASE : data1
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
+
+
