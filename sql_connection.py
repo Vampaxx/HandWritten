@@ -13,7 +13,7 @@ def sql_connector():
 
 
 '''def sql_connector():
-    db_url = 'mysql+pymysql://root:arjun9400508669@flask_db:3306/data1'
+    db_url = 'mysql+pymysql://root:{password}@flask_db:3306/data1'
     print(db_url)
 
     if db_url:
@@ -23,7 +23,7 @@ def sql_connector():
         connection = pymysql.connect(
             host='localhost',
             user='root',
-            password='arjun9400508669',
+            password='',
             database='data1',
         )
 
